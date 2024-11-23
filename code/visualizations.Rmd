@@ -1,0 +1,291 @@
+---
+title: "Data Visulaizations"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+data(diamonds)
+```
+
+
+```{r}
+# Load necessary library and dataset
+library(ggplot2)
+data(diamonds)
+
+# Create a scatter plot of Carat vs. Price
+ggplot(data = diamonds, aes(x = carat, y = price, color = cut, shape = clarity)) +  # framework and aesthetics
+  geom_point(alpha = 0.6, size = 2) + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") +  # Add linear regression line
+  labs(title = "Carat vs. Price of Diamonds",  # labels
+       x = "Carat Weight",
+       y = "Price (USD)",
+       color = "Cut Quality",
+       shape = "Clarity") +
+  theme_minimal()  # Control overall appearance
+```
+
+```{r}
+# Load the necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Clean the data by removing rows with NA values in relevant columns
+diamonds_clean <- diamonds %>%
+  filter(!is.na(carat), !is.na(price), !is.na(cut))
+
+# Create a scatter plot of Carat vs. Price, faceted by Clarity
+ggplot(data = diamonds_clean, aes(x = carat, y = price, color = cut)) + 
+  geom_point(alpha = 0.6, size = 2) +  # Use color for cut
+  labs(title = "Carat vs. Price of Diamonds",  # create labels
+       x = "Carat Weight",
+       y = "Price (USD)",
+       color = "Cut Quality") +
+  facet_wrap(~ clarity) +  # Create separate plots for each clarity level to reduce clutter 
+  scale_color_brewer(palette = "Set1") +  # Use a color palette for cut
+  theme_minimal(base_size = 15) +  # Control overall appearance
+  theme(legend.position = "bottom")  # Position the legend at the bottom
+
+```
+```{r}
+# Load the necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Clean the data by removing rows with NA values in relevant columns
+diamonds_clean <- diamonds %>%
+  filter(!is.na(carat), !is.na(price), !is.na(cut))
+
+# Create a scatter plot of Carat vs. Price, faceted by Clarity
+ggplot(data = diamonds_clean, aes(x = carat, y = price, color = cut)) + 
+  geom_jitter(alpha = 0.4, size = 1.5, width = 0.05, height = 0) +  # making points smaller to reduce some of the overlap
+  labs(title = "Carat vs. Price of Diamonds",  # Specify labels
+       x = "Carat Weight",
+       y = "Price (USD)",
+       color = "Cut Quality") +
+  facet_wrap(~ clarity) +  # Create separate plots for each clarity level to reduce clutter in plots 
+  scale_color_brewer(palette = "Set1") +  # Use a color palette for cut
+  theme_minimal(base_size = 15) +  # Control overall appearance
+  theme(legend.position = "bottom")  # Position the legend at the bottom
+
+```
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+# Install and load the palmerpenguins package
+library(palmerpenguins)
+library(ggplot2)
+
+# Load the penguins dataset
+data(penguins)
+
+# Create a scatter plot of Body Mass vs. Flipper Length
+ggplot(data = penguins, aes(x = body_mass_g, y = flipper_length_mm, color = species, shape = sex)) +
+  geom_point(alpha = 0.7, size = 3) +  # Add points 
+  labs(title = "Body Mass vs. Flipper Length of Palmer Penguins",
+       x = "Body Mass (g)",
+       y = "Flipper Length (mm)",
+       color = "Species",
+       shape = "Sex") +
+  theme_minimal(base_size = 15) + 
+  theme(legend.position = "right")  # Position the legend on the right
+
+```
+
+
+
+
+
+
+
+```{r}
+library(palmerpenguins)
+library(ggplot2)
+
+# Load the penguins dataset
+data(penguins)
+
+# Remove rows with NA values in body_mass_g or flipper_length_mm
+penguins_clean <- na.omit(penguins[, c("body_mass_g", "flipper_length_mm", "species", "sex")])
+
+# Create a scatter plot with improvements without faceting
+ggplot(data = penguins_clean, aes(x = body_mass_g, y = flipper_length_mm, color = species, shape = sex)) +
+  geom_jitter(alpha = 0.5, size = 2, width = 0.2) +  # Use jitter to reduce overlap
+  labs(title = "Body Mass vs. Flipper Length of Palmer Penguins",
+       x = "Body Mass (g)",
+       y = "Flipper Length (mm)",
+       color = "Species",
+       shape = "Sex") +
+  scale_color_brewer(palette = "Set1") +  # Use a distinct color palette
+  theme_minimal(base_size = 15) +  # Apply a minimal theme
+  theme(legend.position = "right")  # Position the legend on the right
+
+```
+
+
+
+
+```{r}
+# Install and load the palmerpenguins package
+library(palmerpenguins)
+library(ggplot2)
+
+# Load the penguins dataset
+data(penguins)
+
+# Remove rows with NA values in body_mass_g or flipper_length_mm
+penguins_clean <- na.omit(penguins[, c("body_mass_g", "flipper_length_mm", "species", "sex")])
+
+# Create a scatter plot of Body Mass vs. Flipper Length with faceting by sex
+ggplot(data = penguins_clean, aes(x = body_mass_g, y = flipper_length_mm, color = species)) + #colors for different species
+  geom_point(aes(shape = sex), alpha = 0.7, size = 3) +  # Different shapes for sex
+  labs(title = "Body Mass vs. Flipper Length of Palmer Penguins",
+       x = "Body Mass (g)",
+       y = "Flipper Length (mm)",
+       color = "Species",
+       shape = "Sex") +
+  facet_wrap(~ sex) +  # Create separate panels for each sex
+  theme_minimal(base_size = 15) +  
+  theme(legend.position = "right")  # Position the legend on the right
+
+```
+
+```{r}
+# Install and load the dcData package if not already installed
+library(dcData)
+library(dplyr)
+library(ggplot2)
+
+# Load the BabyNames dataset
+data("BabyNames")
+
+```
+
+
+```{r}
+View(BabyNames)
+```
+
+
+```{r}
+# Load the necessary library
+library(dcData)
+
+# Load the BabyNames dataset
+data("BabyNames")
+
+# Get the number of rows in the dataset
+number_of_rows <- nrow(BabyNames)
+print(number_of_rows)
+
+```
+
+
+```{r}
+# Load the necessary library
+library(dcData)
+
+# Load the BabyNames dataset
+data("BabyNames")
+
+# Get the number of columns in the dataset
+number_of_columns <- ncol(BabyNames)
+print(number_of_columns)
+
+```
+
+
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+
+# Load the dcData dataset from the dcData package
+data = BabyNames  
+
+# Filter for the names and remove missing values
+names_of_interest = c('Madeline', 'Hannah', 'Campbell')
+filteredData = data %>%
+  filter(name %in% names_of_interest) %>%
+  na.omit()  # Remove rows with NA values
+
+# Group by Year and Name, summing the counts
+grouped_data = filteredData %>%
+  group_by(year, name) %>%
+  summarise(Count = sum(count, na.rm = TRUE), .groups = 'drop')  # Drop grouping
+
+# View the grouped data 
+head(grouped_data)
+
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+
+# Load the dcData dataset from the dcData package
+data = BabyNames  
+
+# Filter for the names and remove missing values
+names_of_interest = c('Madeline', 'Hannah', 'Campbell')
+filteredData = data %>%
+  filter(name %in% names_of_interest) %>%
+  na.omit()  # Remove rows with NA values
+
+# Group by year and name, summing the counts
+grouped_data = filteredData %>%
+  group_by(year, name) %>%
+  summarise(Count = sum(count, na.rm = TRUE), .groups = 'drop')  # Drop grouping
+
+# View the grouped data 
+head(grouped_data)
+
+# Load necessary library
+library(ggplot2)
+
+#customizing my own colors
+custom_colors = c("Madeline" = "aquamarine2", 
+                   "Hannah" = "coral2",   
+                   "Campbell" = "cornflowerblue")
+
+#customizing my own different line types
+custom_line_types = c("Madeline" = "dashed", 
+                       "Hannah" = "dotted", 
+                       "Campbell" = "solid")
+
+# Create the line graph for name popularity over time
+ggplot(grouped_data, aes(x = year, y = Count, color = name, linetype = name)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  scale_color_manual(values = custom_colors) + #colors
+  scale_linetype_manual(values = custom_line_types) + #line types
+  labs(title = 'Popularity of Names Over Time: Madeline, Hannah, Campbell',
+       x = 'Year',
+       y = 'Number of Occurrences',
+       color = 'name', 
+       linetype = 'name') +
+  theme_minimal() +
+  theme(legend.position = "bottom")  # Position the legend at the bottom
+
+```
+
+
+
+
+
+
+
+
+
+
+
